@@ -1,3 +1,4 @@
-number = input("Введіть кількість гривенень: ")
-number = int(number)
-print(f"Станом на 30 січня 2023 року це становить {number*37.44} доларів США")
+from decimal import *
+number = Decimal(input('Введіть кількість гривенень: '))
+exchange = Decimal('37.44')
+print(f"Станом на 30 січня 2023 року це становить {number * exchange} доларів США")
