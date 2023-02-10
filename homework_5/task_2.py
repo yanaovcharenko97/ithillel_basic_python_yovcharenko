@@ -1,13 +1,13 @@
 def triangle_square_and_perimeter(a, b):
-    sq = (a * b) / 2
-    per = (a**2 + b**2)**0.5 + a + b
-    return sq, per
+    square = (a * b) / 2
+    perimeter = (a**2 + b**2)**0.5 + a + b
+    return square, perimeter
 
 
 print('Please enter the length of the legs the triangle')
 
-c, d = int(input('Leg 1 - ')), int(input('Leg 2 - '))
-res_1, res_2 = triangle_square_and_perimeter(c, d)
+leg_a, leg_b = int(input('Leg a - ')), int(input('Leg b - '))
+result_square, result_perimeter = triangle_square_and_perimeter(leg_a, leg_b)
 
-print('\nSquare =', res_1)
-print('Perimeter =', res_2)
+print('\nSquare =', result_square)
+print('Perimeter =', result_perimeter)
