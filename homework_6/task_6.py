@@ -23,7 +23,7 @@ def test():
 
 
 def main():
-    x = float(input("Please enter a number to find out to find out its sign: "))
+    x = float(input("Please enter a number to find out its sign: "))
     result = sign_x(x)
 
     print(f"\nSign({x}) =", result)
