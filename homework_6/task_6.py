@@ -5,6 +5,7 @@ def sign_x(x):
         sign = -1
     else:
         sign = 0
+
     return sign
 
 

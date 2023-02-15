@@ -1,15 +1,16 @@
 def solve_quadratic_equation(a, b, c):
-    d = ((b**2) - (4*a*c))
+    d = b**2 - 4*a*c
 
     if d == 0:
-        x1 = (-b / (2*a))
+        x1 = -b / (2*a)
         x2 = None
     elif d < 0:
         x1 = None
         x2 = None
     else:
-        x1 = ((-b - d ** 0.5) / (2 * a))
-        x2 = ((-b + d ** 0.5) / (2 * a))
+        x1 = (-b - d ** 0.5) / (2 * a)
+        x2 = (-b + d ** 0.5) / (2 * a)
+
     return x1, x2
 
 

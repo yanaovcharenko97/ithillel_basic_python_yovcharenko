@@ -1,33 +1,20 @@
 def circles_intersect(x1, y1, r1, x2, y2, r2):
     d = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
 
-    if d == 0 and r1 == r2:
-        result = "Circles coincide"
-    elif d > r1 + r2:
-        result = "Circles do not intersect"
-    elif d < abs(r2 - r1):
-        result = "Circles do not intersect. One of the circles is contained within the other"
+    if d < r1 + r2:
+        return True
     else:
-        result = "Circles intersect at two points"
-    return result
+        return False
 
 
 def test():
-    result = circles_intersect(1, 1, 3, 1, 1, 3)
-    print("Result:", result)
-    assert result == "Circles coincide"
-
     result = circles_intersect(1, 7, 2, 2, 4, 1)
     print("Result:", result)
-    assert result == "Circles do not intersect"
-
-    result = circles_intersect(1, 7, 2, 2, 4, 31)
-    print("Result:", result)
-    assert result == "Circles do not intersect. One of the circles is contained within the other"
+    assert result is False
 
     result = circles_intersect(1, 1, 3, 5, 5, 4)
     print("Result:", result)
-    assert result == "Circles intersect at two points"
+    assert result is True
 
 
 def main():
@@ -43,7 +30,10 @@ def main():
 
     result = circles_intersect(x1, y1, r1, x2, y2, r2)
 
-    print("\n" + result)
+    if result is True:
+        print("\nYes. Circles intersect at two points")
+    else:
+        print("\nNo. Circles do not intersect")
 
 
 if __name__ == "__main__":
