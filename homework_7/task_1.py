@@ -1,5 +1,6 @@
 def chess_knight(x1_letter, y1_number, x2_letter, y2_number):
     letter_designations = "abcdefgh"
+    
     x1_numer = 0
     for i in range(len(letter_designations)):
         if letter_designations[i] == x1_letter[0]:
