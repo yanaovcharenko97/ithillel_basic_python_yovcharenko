@@ -1,10 +1,5 @@
 def circles_intersect(x1, y1, r1, x2, y2, r2):
-    d = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
-
-    if d < r1 + r2:
-        return True
-    else:
-        return False
+    return ((x2 - x1)**2 + (y2 - y1)**2)**0.5 < r1 + r2
 
 
 def test():
