@@ -1,10 +1,8 @@
 def sum_symbol_codes(first, last):
     first = ord(first)
     last = ord(last)
-    sum_codes = 0
+    sum_codes = sum(range(first, last + 1))
 
-    for i in range(first, last + 1):
-        sum_codes += i
     return sum_codes
 
 
@@ -21,7 +19,7 @@ def test():
 def main():
     print("Please enter first and last symbols to find sum of unicode codes between them "
           "(including first and last symbols)")
-    
+
     first = input("\nFirst symbol: ")
     last = input("Last symbol: ")
     sum_codes = sum_symbol_codes(first, last)
