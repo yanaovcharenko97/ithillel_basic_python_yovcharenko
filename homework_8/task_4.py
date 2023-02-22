@@ -1,5 +1,6 @@
 def prime_numbers(start, end):
     list_prime_numbers = []
+    
     for number in range(start, end + 1):
         if number == 1:
             continue
@@ -16,6 +17,7 @@ def prime_numbers(start, end):
 
 def main():
     result = prime_numbers(1, 100)
+    
     print(result)
 
 

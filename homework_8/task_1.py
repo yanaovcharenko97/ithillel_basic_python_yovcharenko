@@ -16,6 +16,7 @@ def main():
     lst = ["a", "b", 12, 46, [2, 7, 5], 456]
     elem = 12
     result = index(lst, elem)
+    
     print(result)
 
 
