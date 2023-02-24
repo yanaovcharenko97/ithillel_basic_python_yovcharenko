@@ -1,17 +1,17 @@
 def get_max_digit(number):
-    max_digit = 0
-    
-    for i in str(number):
-        if int(i) > max_digit:
-            max_digit = int(i)
+    max_digit = ""
 
-    return max_digit
+    for i in str(number):
+        if i > max_digit:
+            max_digit = i
+
+    return int(max_digit)
 
 
 def main():
-    number = int(input("Please enter any 12 digit number: "))
+    number = input("Please enter any 12 digit number: ")
     max_digit = get_max_digit(number)
-    
+
     print(f"\nThe largest digit of {number} is {max_digit}")
 
 
