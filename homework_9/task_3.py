@@ -1,8 +1,10 @@
 def copy_deep(obj):
     if type(obj) is dict:
-        new_dict = dict(obj)
+        new_dict = {}
+        for key, value in obj.items():
+            new_dict[key] = copy_deep(value)
         return new_dict
-    
+
     elif type(obj) is list:
         new_list = [copy_deep(i) for i in obj]
         return new_list

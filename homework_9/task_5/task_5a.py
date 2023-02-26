@@ -2,15 +2,15 @@ def group_by_surname(list_of_enrollees):
     count_students = {"A-I": [], "J-P": [], "Q-T": [], "U-Z": []}
 
     for student in list_of_enrollees:
-        surname = student.split()[-1]
+        surname = student.split()[-1][0].upper()
 
-        if 'A' <= surname[0] <= 'I':
+        if 'A' <= surname <= 'I':
             count_students["A-I"].append(student)
-        elif 'J' <= surname[0] <= 'P':
+        elif 'J' <= surname <= 'P':
             count_students["J-P"].append(student)
-        elif 'Q' <= surname[0] <= 'T':
+        elif 'Q' <= surname <= 'T':
             count_students["Q-T"].append(student)
-        elif 'U' <= surname[0] <= 'Z':
+        elif 'U' <= surname <= 'Z':
             count_students["U-Z"].append(student)
 
     return len(count_students["A-I"]), len(count_students["J-P"]), \
@@ -34,3 +34,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
