@@ -9,7 +9,7 @@ def copy_deep(obj, copied=None):
         new_dict = {}
         copied[id(obj)] = new_dict
         for key, value in obj.items():
-            new_dict[key] = copy_deep(value, copied)
+            new_dict[copy_deep(key)] = copy_deep(value, copied)
         return new_dict
 
     elif type(obj) is list:

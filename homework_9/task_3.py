@@ -2,7 +2,7 @@ def copy_deep(obj):
     if type(obj) is dict:
         new_dict = {}
         for key, value in obj.items():
-            new_dict[key] = copy_deep(value)
+            new_dict[copy_deep(key)] = copy_deep(value)
         return new_dict
 
     elif type(obj) is list:
