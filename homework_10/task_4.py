@@ -52,7 +52,7 @@ def computer_guess():
 
 def main():
     while True:
-        print("Choose a game:")
+        print("\nChoose a game:")
         game = get_str("Enter 'G' to guess my number, or 'C' to have the computer guess your number: ", ["g", "c"])
         if game == "g":
             guess_number()
