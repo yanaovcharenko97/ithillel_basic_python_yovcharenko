@@ -1,4 +1,4 @@
-import random
+from random import randint
 
 
 def get_integer(prompt):
@@ -20,7 +20,7 @@ def get_str(prompt, valid_options):
 
 
 def guess_number():
-    number = random.randint(1, 100)
+    number = randint(1, 100)
     while True:
         guess = get_integer("\nI picked a number from 1 to 100. Try to guess it: ")
         if guess > number:
