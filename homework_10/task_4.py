@@ -32,7 +32,7 @@ def guess_number():
             return
 
 
-def binary_search():
+def computer_guess():
     number = get_integer("\nEnter a number between 1 and 100 for me to guess: ")
     lower_bound = 1
     upper_bound = 100
@@ -57,7 +57,7 @@ def main():
         if game == "g":
             guess_number()
         else:
-            binary_search()
+            computer_guess()
         repeat = get_str("\nDo you want to play again? Enter YES or NO: ", ["yes", "no"])
         if repeat == "no":
             break
