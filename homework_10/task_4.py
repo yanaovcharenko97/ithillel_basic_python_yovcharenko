@@ -33,7 +33,6 @@ def guess_number():
 
 
 def computer_guess():
-    number = get_integer("\nEnter a number between 1 and 100 for me to guess: ")
     lower_bound = 1
     upper_bound = 100
     guess = (lower_bound + upper_bound) // 2
@@ -41,7 +40,7 @@ def computer_guess():
         print(f"\nMy number is {guess}")
         feedback = get_str("Is my number correct, less, or bigger? Enter C, L, or B: ", ["c", "l", "b"])
         if feedback == "c":
-            print(f"\nYippee! I guessed! Your number is {number}!")
+            print(f"\nYippee! I guessed! Your number is {guess}!")
             return
         elif feedback == "l":
             lower_bound = guess + 1
@@ -66,3 +65,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
