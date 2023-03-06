@@ -17,7 +17,7 @@ def generate_password(length):
 
 
 def main():
-    password = generate_password(20)
+    password = generate_password(1)
     print(password)
 
 
