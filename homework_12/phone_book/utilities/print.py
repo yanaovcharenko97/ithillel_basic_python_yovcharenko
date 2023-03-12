@@ -17,10 +17,7 @@ def print_info(message):
     
     
 def print_prompt():
-    print()
-    print()
-    print()
-    print("~ Welcome to phonebook ~")
+    print("\n\n\n~ Welcome to phonebook ~")
     print("Select one of actions below:")
     print("     1 - Print phonebook entries")
     print("     2 - Print phonebook entries (by age)")
@@ -35,5 +32,4 @@ def print_prompt():
     print("-----------------------------")
     print("     s - Save to file")
     print("     l - Load from file")
-    print("     0 - Exit")
-    print()
+    print("     0 - Exit\n")

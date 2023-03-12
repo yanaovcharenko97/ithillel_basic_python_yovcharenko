@@ -1,92 +1,92 @@
+"""
+This script is a phone book that allows adding, deleting, updating contacts,
+and searching them by name, age, and email. It is possible to save the contact
+list to a file or open an existing file with phone contacts.
+
+Documentation for the code can be found in the file "Documentation for the Phonebook program.pdf"
+"""
+
+
 from copy import deepcopy
 from json import load
 from utilities.input import get_input_str
-from utilities.decorator import decorator
+from utilities.decorator import print_start_end_process
 from utilities.print import print_entry, print_error, print_prompt
-from utilities.save_file import save_new_file, save_actual_file, save_changes
+from utilities.save_file import save_phonebook_to_new_file, \
+    save_phonebook_to_actual_file, save_changes_for_phonebook
 import argparse
 
 
 parser = argparse.ArgumentParser(description="Phone book")
 parser.add_argument("url", type=str, help="The path to the file")
-parser.add_argument("-v", "--verbose", action="store_true", help="Enable decorators")
+parser.add_argument("-v", "--verbose", action="store_true",
+                    help="Enable decorators")
 args = parser.parse_args()
-decorator_off = args.verbose
+print_start_end_process_off = args.verbose
 
-running = True
-unsaved_changes = False
-file_name = ""
-phone_book = []
+running = True              # a flag variable indicating the state of the program
+unsaved_changes = False     # a flag variable indicating whether changes have been made to the contact list
+file_name = ""              # the name of the file with phone contacts
+phone_book = []             # the list of contacts
 
 
-@decorator(decorator_off)
+@print_start_end_process(print_start_end_process_off)
 def print_phonebook():
-    print()
-    print()
-    print("#########  Phone book  ##########")
-    print()
+    print("\n\n#########  Phone book  ##########\n")
 
-    number = 1
-    for entry in phone_book:
-        print_entry(number, entry)
-        number += 1
+    for idx, entry in enumerate(phone_book, start=1):
+        print_entry(idx, entry)
 
 
-@decorator(decorator_off)
-def add_entry_phonebook():
+@print_start_end_process(print_start_end_process_off)
+def add_new_entry_to_phonebook():
     global phone_book
-    surname = get_input_str(prompt="    Enter surname: ")
-    name = get_input_str(prompt="    Enter name: ")
-    age = int(input("    Enter age: "))
+    surname      = get_input_str(prompt="    Enter surname: ")
+    name         = get_input_str(prompt="    Enter name: ")
+    age          = int(input("    Enter age: "))
     phone_number = get_input_str(prompt="    Enter phone num.: ")
-    email = get_input_str(prompt="    Enter email: ")
-    entry = {"surname": surname, "name": name, "age": age, "phone_number": phone_number, "email": email}
+    email        = get_input_str(prompt="    Enter email: ")
+    entry        = {"surname": surname, "name": name, "age": age,
+                    "phone_number": phone_number, "email": email}
     phone_book.append(entry)
     global unsaved_changes
     unsaved_changes = True
 
 
-@decorator(decorator_off)
-def find_entry_name_phonebook():
+@print_start_end_process(print_start_end_process_off)
+def find_entry_by_name_in_phonebook():
     name = get_input_str(prompt="    Enter name: ")
-    idx = 1
     found = False
 
-    for entry in phone_book:
-
+    for idx, entry in enumerate(phone_book, start=1):
         if entry["name"] == name:
             print_entry(idx, entry)
-            idx += 1
             found = True
 
     if not found:
         print_error("Not found!!")
 
 
-@decorator(decorator_off)
-def find_entry_age_phonebook():
+@print_start_end_process(print_start_end_process_off)
+def find_entry_by_age_in_phonebook():
     age = int(get_input_str(prompt="    Enter age: ", allow_digits=True))
-    idx = 1
     found = False
 
-    for entry in phone_book:
-
+    for idx, entry in enumerate(phone_book, start=1):
         if entry["age"] == age:
             print_entry(idx, entry)
-            idx += 1
             found = True
 
     if not found:
         print_error("Not found!!")
 
 
-@decorator(decorator_off)
-def find_email_by_name():
+@print_start_end_process(print_start_end_process_off)
+def find_email_by_name_in_phonebook():
     name = get_input_str(prompt="    Enter name: ")
     found = False
 
-    for entry in phone_book:
-
+    for idx, entry in enumerate(phone_book):
         if entry["name"] == name:
             print(f"\n{name}'s email:\n   ", entry["email"])
             found = True
@@ -95,74 +95,79 @@ def find_email_by_name():
         print_error("Not found!!")
 
 
-@decorator(decorator_off)
-def delete_entry_name_phonebook():
+@print_start_end_process(print_start_end_process_off)
+def delete_entry_by_name_in_phonebook():
     name = get_input_str(prompt="    Enter name: ")
-    copy_name_phonebook = deepcopy(phone_book)
+    copy_of_phone_book = deepcopy(phone_book)
     found = False
 
-    for entry in copy_name_phonebook:
-
+    for idx, entry in enumerate(copy_of_phone_book):
         if entry["name"] == name:
-            phone_book.pop(copy_name_phonebook.index(entry))
+            phone_book.pop(idx)
             global unsaved_changes
             unsaved_changes = True
+            found = True
 
     if not found:
         print_error("Not found!!")
 
 
-@decorator(decorator_off)
+@print_start_end_process(print_start_end_process_off)
 def count_all_entries_in_phonebook():
     print("Total number of entries: ", len(phone_book))
 
 
-@decorator(decorator_off)
+@print_start_end_process(print_start_end_process_off)
 def print_phonebook_by_age():
-    print()
-    print()
-    print("#########  Phone book by age  ##########")
-    print()
+    print("\n\n#########  Phone book by age  ##########\n")
 
-    number = 1
-    phone_book_age = sorted(phone_book, key=lambda x: x["age"])
+    phone_book_sorted_by_age = sorted(phone_book, key=lambda x: x["age"])
 
-    for entry in phone_book_age:
-        print_entry(number, entry)
-        number += 1
+    for idx, entry in enumerate(phone_book_sorted_by_age):
+        print_entry(idx + 1, entry)
 
 
-@decorator(decorator_off)
-def increase_age():
-    number_of_years = int(get_input_str(prompt="    Enter number of years: ", allow_digits=True))
+@print_start_end_process(print_start_end_process_off)
+def update_contact_ages():
+    years_to_add = int(get_input_str(prompt="    Enter number of years: ",
+                                     allow_digits=True))
 
-    for entry in phone_book:
-        entry["age"] += number_of_years
+    for idx, entry in enumerate(phone_book):
+        phone_book[idx]["age"] += years_to_add
 
     global unsaved_changes
     unsaved_changes = True
 
 
-@decorator(decorator_off)
-def avr_age_of_all_persons():
-    age_of_all_persons = [entry["age"] for entry in phone_book]
-    average_age_of_all_persons = sum(age_of_all_persons) / len(age_of_all_persons)
+@print_start_end_process(print_start_end_process_off)
+def calculate_average_age_of_all_persons_in_phonebook():
+    try:
+        age_of_all_persons_in_phonebook = \
+            [entry["age"] for entry in phone_book]
+        average_age_of_all_persons = \
+            sum(age_of_all_persons_in_phonebook) / len(age_of_all_persons_in_phonebook)
 
-    print(f"Average age of all persons:\n~ {average_age_of_all_persons} years ~")
+        print("Average age of all persons:\n~ "
+              f"{average_age_of_all_persons:.2f} years ~")
+
+    except ZeroDivisionError:
+        print("Error: Division by zero. The phone book is empty.")
 
 
-@decorator(decorator_off)
-def save_to_file():
+@print_start_end_process(print_start_end_process_off)
+def save_phonebook_to_file():
     if file_name is None:
-        save_new_file()
+        save_phonebook_to_new_file()
     else:
-        response = get_input_str(prompt="Save the data to the actual file or create a new one? (actual/new): ",
-                                 options=["actual", "new"])
+        response = get_input_str(
+            prompt="Save the data to the actual file or "
+                   "create a new one? (actual/new): ",
+            options=["actual", "new"])
 
         if response.lower() == "actual":
-            save_actual_file()
+            save_phonebook_to_actual_file()
         elif response.lower() == "new":
-            save_new_file()
+            save_phonebook_to_new_file()
 
 
 def open_file(name):
@@ -178,16 +183,17 @@ def open_file(name):
     file_name = name
 
 
-@decorator(decorator_off)
+@print_start_end_process(print_start_end_process_off)
 def load_from_file():
     global file_name
     global phone_book
     global unsaved_changes
 
     if unsaved_changes:
-        save_changes()
+        save_changes_for_phonebook()
 
-    file_name = get_input_str(prompt="Enter the name of the file to be opened:\n")
+    file_name = get_input_str(prompt="Enter the name of the "
+                                     "file to be opened:\n")
     phone_book = []
     unsaved_changes = False
 
@@ -200,13 +206,13 @@ def load_from_file():
         print_error(f"File '{file_name}' not found")
 
 
-@decorator(decorator_off)
+@print_start_end_process(print_start_end_process_off)
 def exit_file():
     global running
     global unsaved_changes
 
     if unsaved_changes:
-        save_changes()
+        save_changes_for_phonebook()
 
     running = False
 
@@ -219,17 +225,17 @@ def main():
             menu = {
                 '1': print_phonebook,
                 '2': print_phonebook_by_age,
-                '3': add_entry_phonebook,
-                '4': find_entry_name_phonebook,
-                '5': find_entry_age_phonebook,
-                '6': delete_entry_name_phonebook,
+                '3': add_new_entry_to_phonebook,
+                '4': find_entry_by_name_in_phonebook,
+                '5': find_entry_by_age_in_phonebook,
+                '6': delete_entry_by_name_in_phonebook,
                 '7': count_all_entries_in_phonebook,
-                '8': avr_age_of_all_persons,
-                '9': increase_age,
-                'e': find_email_by_name,
+                '8': calculate_average_age_of_all_persons_in_phonebook,
+                '9': update_contact_ages,
+                'e': find_email_by_name_in_phonebook,
 
                 '0': exit,
-                's': save_to_file,
+                's': save_phonebook_to_file,
                 'l': load_from_file,
             }
 
