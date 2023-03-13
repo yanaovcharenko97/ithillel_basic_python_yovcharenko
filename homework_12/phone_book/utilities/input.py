@@ -1,16 +1,21 @@
-def get_input_str(prompt="", options=None, allow_digits=False):
+def get_input_str_from_user(prompt="", options=None):
     entry_str = input(prompt).strip().capitalize()
     if options is not None:
-        if not entry_str or entry_str not in \
-                [option.capitalize() for option in options]:
+        if not entry_str or entry_str.lower() not in \
+                [option.lower() for option in options]:
             print("Invalid input. Please re-enter")
-            entry_str = get_input_str(prompt, options)
-    elif allow_digits:
-        if not entry_str.isdigit():
-            print("Invalid input. Please re-enter")
-            entry_str = get_input_str(prompt, options, allow_digits)
+            entry_str = get_input_str_from_user(prompt, options)
     elif not entry_str:
         print("Invalid input. Please re-enter")
-        entry_str = get_input_str(prompt, options, allow_digits)
+        entry_str = get_input_str_from_user(prompt, options)
 
     return entry_str
+
+
+def get_input_int_from_user(prompt):
+    while True:
+        try:
+            value = int(get_input_str_from_user(prompt))
+            return value
+        except ValueError:
+            print("Invalid input. Please enter a number.")

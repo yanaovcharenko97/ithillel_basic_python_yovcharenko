@@ -9,7 +9,7 @@ Documentation for the code can be found in the file "Documentation for the Phone
 
 from copy import deepcopy
 from json import load
-from utilities.input import get_input_str
+from utilities.input import get_input_str_from_user, get_input_int_from_user
 from utilities.decorator import print_start_end_process
 from utilities.print import print_entry, print_error, print_prompt
 from utilities.save_file import save_phonebook_to_new_file, \
@@ -22,7 +22,7 @@ parser.add_argument("url", type=str, help="The path to the file")
 parser.add_argument("-v", "--verbose", action="store_true",
                     help="Enable decorators")
 args = parser.parse_args()
-print_start_end_process_off = args.verbose
+print_start_end_process_off = not args.verbose
 
 running = True              # a flag variable indicating the state of the program
 unsaved_changes = False     # a flag variable indicating whether changes have been made to the contact list
@@ -41,11 +41,11 @@ def print_phonebook():
 @print_start_end_process(print_start_end_process_off)
 def add_new_entry_to_phonebook():
     global phone_book
-    surname      = get_input_str(prompt="    Enter surname: ")
-    name         = get_input_str(prompt="    Enter name: ")
-    age          = int(input("    Enter age: "))
-    phone_number = get_input_str(prompt="    Enter phone num.: ")
-    email        = get_input_str(prompt="    Enter email: ")
+    surname      = get_input_str_from_user(prompt="    Enter surname: ")
+    name         = get_input_str_from_user(prompt="    Enter name: ")
+    age          = get_input_int_from_user(prompt="    Enter age: ")
+    phone_number = get_input_str_from_user(prompt="    Enter phone num.: ")
+    email        = get_input_str_from_user(prompt="    Enter email: ")
     entry        = {"surname": surname, "name": name, "age": age,
                     "phone_number": phone_number, "email": email}
     phone_book.append(entry)
@@ -55,7 +55,7 @@ def add_new_entry_to_phonebook():
 
 @print_start_end_process(print_start_end_process_off)
 def find_entry_by_name_in_phonebook():
-    name = get_input_str(prompt="    Enter name: ")
+    name = get_input_str_from_user(prompt="    Enter name: ")
     found = False
 
     for idx, entry in enumerate(phone_book, start=1):
@@ -64,12 +64,12 @@ def find_entry_by_name_in_phonebook():
             found = True
 
     if not found:
-        print_error("Not found!!")
+        print_error("Contact not found")
 
 
 @print_start_end_process(print_start_end_process_off)
 def find_entry_by_age_in_phonebook():
-    age = int(get_input_str(prompt="    Enter age: ", allow_digits=True))
+    age = get_input_int_from_user(prompt="    Enter age: ")
     found = False
 
     for idx, entry in enumerate(phone_book, start=1):
@@ -78,12 +78,12 @@ def find_entry_by_age_in_phonebook():
             found = True
 
     if not found:
-        print_error("Not found!!")
+        print_error("Contact not found")
 
 
 @print_start_end_process(print_start_end_process_off)
 def find_email_by_name_in_phonebook():
-    name = get_input_str(prompt="    Enter name: ")
+    name = get_input_str_from_user(prompt="    Enter name: ")
     found = False
 
     for idx, entry in enumerate(phone_book):
@@ -92,12 +92,12 @@ def find_email_by_name_in_phonebook():
             found = True
 
     if not found:
-        print_error("Not found!!")
+        print_error("Contact not found")
 
 
 @print_start_end_process(print_start_end_process_off)
 def delete_entry_by_name_in_phonebook():
-    name = get_input_str(prompt="    Enter name: ")
+    name = get_input_str_from_user(prompt="    Enter name: ")
     copy_of_phone_book = deepcopy(phone_book)
     found = False
 
@@ -109,7 +109,7 @@ def delete_entry_by_name_in_phonebook():
             found = True
 
     if not found:
-        print_error("Not found!!")
+        print_error("Contact not found")
 
 
 @print_start_end_process(print_start_end_process_off)
@@ -129,8 +129,7 @@ def print_phonebook_by_age():
 
 @print_start_end_process(print_start_end_process_off)
 def update_contact_ages():
-    years_to_add = int(get_input_str(prompt="    Enter number of years: ",
-                                     allow_digits=True))
+    years_to_add = get_input_int_from_user(prompt="    Enter number of years: ", )
 
     for idx, entry in enumerate(phone_book):
         phone_book[idx]["age"] += years_to_add
@@ -147,11 +146,11 @@ def calculate_average_age_of_all_persons_in_phonebook():
         average_age_of_all_persons = \
             sum(age_of_all_persons_in_phonebook) / len(age_of_all_persons_in_phonebook)
 
-        print("Average age of all persons:\n~ "
-              f"{average_age_of_all_persons:.2f} years ~")
+        print("Average age of all persons:\n"
+              f"~ {average_age_of_all_persons:.2f} years ~")
 
     except ZeroDivisionError:
-        print("Error: Division by zero. The phone book is empty.")
+        print_error("Division by zero. The phone book is empty.")
 
 
 @print_start_end_process(print_start_end_process_off)
@@ -159,7 +158,7 @@ def save_phonebook_to_file():
     if file_name is None:
         save_phonebook_to_new_file()
     else:
-        response = get_input_str(
+        response = get_input_str_from_user(
             prompt="Save the data to the actual file or "
                    "create a new one? (actual/new): ",
             options=["actual", "new"])
@@ -175,11 +174,11 @@ def open_file(name):
     global phone_book
 
     try:
-        with open(name, 'r') as f:
+        with open(name, "r") as f:
             phone_book = load(f)
 
     except FileNotFoundError:
-        print_error(f"File '{name}' not found")
+        print_error("File not found")
     file_name = name
 
 
@@ -192,18 +191,18 @@ def load_from_file():
     if unsaved_changes:
         save_changes_for_phonebook()
 
-    file_name = get_input_str(prompt="Enter the name of the "
+    file_name = get_input_str_from_user(prompt="Enter the name of the "
                                      "file to be opened:\n")
     phone_book = []
     unsaved_changes = False
 
     try:
-        with open(file_name, 'r') as f:
+        with open(file_name, "r") as f:
             phone_book = load(f)
         unsaved_changes = False
 
     except FileNotFoundError:
-        print_error(f"File '{file_name}' not found")
+        print_error("File not found")
 
 
 @print_start_end_process(print_start_end_process_off)
@@ -223,29 +222,29 @@ def main():
 
         try:
             menu = {
-                '1': print_phonebook,
-                '2': print_phonebook_by_age,
-                '3': add_new_entry_to_phonebook,
-                '4': find_entry_by_name_in_phonebook,
-                '5': find_entry_by_age_in_phonebook,
-                '6': delete_entry_by_name_in_phonebook,
-                '7': count_all_entries_in_phonebook,
-                '8': calculate_average_age_of_all_persons_in_phonebook,
-                '9': update_contact_ages,
-                'e': find_email_by_name_in_phonebook,
+                "1": print_phonebook,
+                "2": print_phonebook_by_age,
+                "3": add_new_entry_to_phonebook,
+                "4": find_entry_by_name_in_phonebook,
+                "5": find_entry_by_age_in_phonebook,
+                "6": delete_entry_by_name_in_phonebook,
+                "7": count_all_entries_in_phonebook,
+                "8": calculate_average_age_of_all_persons_in_phonebook,
+                "9": update_contact_ages,
+                "e": find_email_by_name_in_phonebook,
 
-                '0': exit,
-                's': save_phonebook_to_file,
-                'l': load_from_file,
+                "0": exit,
+                "s": save_phonebook_to_file,
+                "l": load_from_file,
             }
 
             print_prompt()
-            user_input = input("phonebook> ")
+            user_input = get_input_str_from_user(prompt="phonebook> ")
             menu[user_input]()
 
-        except Exception as ex:
-            print_error("Something went wrong. Try again...")
+        except KeyError:
+            print_error("Please enter a valid option from the menu.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

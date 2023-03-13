@@ -4,8 +4,7 @@ def print_entry(number, entry):
     print("| Name:    %20s |" % entry["name"])
     print("| Age:     %20s |" % entry["age"])
     print("| Phone:   %20s |" % entry["phone_number"])
-    print("| Email:   %20s |" % entry["email"])
-    print()
+    print("| Email:   %20s |\n" % entry["email"])
 
 
 def print_error(message):
