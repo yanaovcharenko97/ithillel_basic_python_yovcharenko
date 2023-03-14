@@ -25,14 +25,14 @@ args = parser.parse_args()
 print_start_end_process_off = not args.verbose
 
 running = True              # a flag variable indicating the state of the program
-unsaved_changes = False     # a flag variable indicating whether changes have been made to the contact list
+changes_made_to_phonebook = False     # a flag variable indicating whether changes have been made to the contact list
 file_name = ""              # the name of the file with phone contacts
 phone_book = []             # the list of contacts
 
 
 @print_start_end_process(print_start_end_process_off)
 def print_phonebook():
-    print("\n\n#########  Phone book  ##########\n")
+    print("\n\n#########  Phone book  ##########")
 
     for idx, entry in enumerate(phone_book, start=1):
         print_entry(idx, entry)
@@ -49,8 +49,8 @@ def add_new_entry_to_phonebook():
     entry        = {"surname": surname, "name": name, "age": age,
                     "phone_number": phone_number, "email": email}
     phone_book.append(entry)
-    global unsaved_changes
-    unsaved_changes = True
+    global changes_made_to_phonebook
+    changes_made_to_phonebook = True
 
 
 @print_start_end_process(print_start_end_process_off)
@@ -104,8 +104,8 @@ def delete_entry_by_name_in_phonebook():
     for idx, entry in enumerate(copy_of_phone_book):
         if entry["name"] == name:
             phone_book.pop(idx)
-            global unsaved_changes
-            unsaved_changes = True
+            global changes_made_to_phonebook
+            changes_made_to_phonebook = True
             found = True
 
     if not found:
@@ -129,13 +129,13 @@ def print_phonebook_by_age():
 
 @print_start_end_process(print_start_end_process_off)
 def update_contact_ages():
-    years_to_add = get_input_int_from_user(prompt="    Enter number of years: ", )
+    years_to_add = get_input_int_from_user(prompt="    Enter number of years: ")
 
     for idx, entry in enumerate(phone_book):
         phone_book[idx]["age"] += years_to_add
 
-    global unsaved_changes
-    unsaved_changes = True
+    global changes_made_to_phonebook
+    changes_made_to_phonebook = True
 
 
 @print_start_end_process(print_start_end_process_off)
@@ -186,20 +186,20 @@ def open_file(name):
 def load_from_file():
     global file_name
     global phone_book
-    global unsaved_changes
+    global changes_made_to_phonebook
 
-    if unsaved_changes:
+    if changes_made_to_phonebook:
         save_changes_for_phonebook()
 
     file_name = get_input_str_from_user(prompt="Enter the name of the "
-                                     "file to be opened:\n")
+                                               "file to be opened:\n")
     phone_book = []
-    unsaved_changes = False
+    changes_made_to_phonebook = False
 
     try:
         with open(file_name, "r") as f:
             phone_book = load(f)
-        unsaved_changes = False
+        changes_made_to_phonebook = False
 
     except FileNotFoundError:
         print_error("File not found")
@@ -208,9 +208,9 @@ def load_from_file():
 @print_start_end_process(print_start_end_process_off)
 def exit_file():
     global running
-    global unsaved_changes
+    global changes_made_to_phonebook
 
-    if unsaved_changes:
+    if changes_made_to_phonebook:
         save_changes_for_phonebook()
 
     running = False

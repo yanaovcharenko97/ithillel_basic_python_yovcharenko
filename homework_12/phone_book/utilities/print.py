@@ -1,10 +1,10 @@
 def print_entry(number, entry):
-    print("--[ %s ]--------------------------" % number)
+    print("\n--[ %s ]--------------------------" % number)
     print("| Surname: %20s |" % entry["surname"])
     print("| Name:    %20s |" % entry["name"])
     print("| Age:     %20s |" % entry["age"])
     print("| Phone:   %20s |" % entry["phone_number"])
-    print("| Email:   %20s |\n" % entry["email"])
+    print("| Email:   %20s |" % entry["email"])
 
 
 def print_error(message):
