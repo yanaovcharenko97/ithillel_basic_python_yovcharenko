@@ -240,7 +240,7 @@ def main():
 
             print_prompt()  # print the command prompt
             user_input = get_input_str_from_user(prompt="phonebook> ")
-            menu[user_input]()  # call the function mapped to the user's input
+            menu[user_input.lower()]()  # call the function mapped to the user's input
 
         except KeyError:
             print_error("Please enter a valid option from the menu.")
