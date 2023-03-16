@@ -2,47 +2,24 @@
 This module implements a Godzilla class that can eat humans and keep track of its stomach capacity.
 It also includes a function to get integer input and a main function that allows the user to
 simulate feeding Godzilla with different humans.
-
-Classes:
-    Godzilla
-The Godzilla class represents a creature that can eat humans and keep track of its stomach capacity.
-
-    Attributes:
-stomach_capacity (int): The maximum amount of food the Godzilla's stomach can hold.
-stomach_content (int): The current amount of food in the Godzilla's stomach.
-
-    Methods:
-eat(human_size): Tries to eat a human of a given size. If the human is smaller than the
-remaining capacity of the stomach, it is eaten and the stomach content is increased
-by the human's size. Otherwise, the human is not eaten and a message is printed.
-
-    Functions:
-
-    get_int_input(prompt: str) -> int:
-This function takes a string prompt as an argument and repeatedly asks the user to input an integer
-until a valid integer is entered. It returns the integer.
-
-    main() -> None:
-This function simulates feeding Godzilla with different humans. It first asks the user to enter the
-stomach capacity of Godzilla. Then, it repeatedly asks the user to enter the size of a human to feed
-Godzilla until the user enters 0 to finish. It calls the eat() method of the Godzilla object with the
-human size as the argument. If the stomach is almost full, it prints a warning message. Finally, it
-asks the user if they want to play again.
-
-    test_godzilla():
-This function contains a series of tests to verify that the Godzilla class is working correctly.
-It checks that Godzilla can eat people of different sizes, that she does not exceed her stomach
-capacity, and that the warning feature that Godzilla is getting full works correctly.
-Calling the test_godzilla() function will help verify that everything is working correctly.
 """
 
 
 class Godzilla:
+    """
+    The Godzilla class represents a creature that can eat humans and
+    keep track of its stomach capacity.    """
     def __init__(self, stomach_capacity):
         self.stomach_capacity = stomach_capacity
         self.stomach_content = 0
 
     def eat(self, human_size):
+        """
+        Try to eat a human of a given size.
+        If the human is smaller than the remaining capacity of the stomach,
+        it is eaten and the stomach content is increased by the human's size.
+        Otherwise, the human is not eaten and a message is printed.
+        """
         if self.stomach_content + human_size <= self.stomach_capacity:
             self.stomach_content += human_size
             print(f"~ Godzilla ate a human of size {human_size} ~")
@@ -85,6 +62,13 @@ def test_godzilla():
 
 
 def get_int_input(prompt: str):
+    """
+    Get an integer from the user.
+
+    This function takes a string prompt as an argument
+    and repeatedly asks the user to input an integer
+    until a valid integer is entered.
+    """
     while True:
         try:
             value = int(input(prompt))
@@ -94,6 +78,13 @@ def get_int_input(prompt: str):
 
 
 def main():
+    """
+    This function simulates feeding Godzilla with different humans. It first asks the user to enter the
+    stomach capacity of Godzilla. Then, it repeatedly asks the user to enter the size of a human to feed
+    Godzilla until the user enters 0 to finish. It calls the eat() method of the Godzilla object with the
+    human size as the argument. If the stomach is almost full, it prints a warning message. Finally, it
+    asks the user if they want to play again.
+    """
     while True:
         stomach_capacity = get_int_input("Enter Godzilla's stomach capacity: ")
         godzilla = Godzilla(stomach_capacity)
