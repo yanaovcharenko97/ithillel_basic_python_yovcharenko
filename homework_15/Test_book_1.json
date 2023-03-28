@@ -1,0 +1,6 @@
+[
+  {"surname": "Nazarenko", "name": "Nazar", "age": 70, "phone_number": "+18005550102", "email": "Nazarenko@testmail"},
+  {"surname": "Mariychuk", "name": "Maria", "age": 15, "phone_number": "+18505550112", "email": "Mariychuk@testmail"},
+  {"surname": "Ivanov", "name": "Ivan", "age": 30, "phone_number": "+18005550122", "email": "Ivanov@testmail"},
+  {"surname": "Kyrylenko", "name": "Kyrylo", "age": 44, "phone_number": "+18005550125", "email": "Kyrylenko@testmail"}
+]
