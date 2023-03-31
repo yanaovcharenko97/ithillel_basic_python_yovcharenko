@@ -33,31 +33,24 @@ class Contact:
         self.phone_number = phone_number
         self.email = email
 
-    def print_entry(self, number, contact):
+    def print_entry(self, number):
         """Displays information about a contact"""
         print("\n--[ %s ]--------------------------" % number)
-        print("| Surname: %20s |" % contact.surname)
-        print("| Name:    %20s |" % contact.name)
-        print("| Age:     %20s |" % contact.age)
-        print("| Phone:   %20s |" % contact.phone_number)
-        print("| Email:   %20s |" % contact.email)
+        print("| Surname: %20s |" % self.surname)
+        print("| Name:    %20s |" % self.name)
+        print("| Age:     %20s |" % self.age)
+        print("| Phone:   %20s |" % self.phone_number)
+        print("| Email:   %20s |" % self.email)
 
-    def to_dict(self, contact):
+    def to_dict(self):
         data = {}
-        data["surname"] = contact.surname,
-        data["name"] = contact.name,
-        data["age"] = contact.age,
-        data["phone_number"] = contact.phone_number,
-        data["email"] = contact.email
+        data["surname"] = self.surname,
+        data["name"] = self.name,
+        data["age"] = self.age,
+        data["phone_number"] = self.phone_number,
+        data["email"] = self.email
 
         return data
-
-    @staticmethod
-    def to_object(line):
-        obj = Contact(line["surname"], line["name"], line["age"],
-                      line["phone_number"], line["email"])
-
-        return obj
 
 
 class Phonebook:
@@ -68,7 +61,7 @@ class Phonebook:
         self.file_name = file_name
         self.changes_made = False
         self.phone_book = []
-        self.__open_file()
+        self._open_file()
 
     @verbose_start_and_end
     def add_new_entry(self):
@@ -183,19 +176,27 @@ class Phonebook:
             # handle the case where the phonebook is empty
             print_error("Division by zero. The phone book is empty.")
 
-    def serialize(self):
+    def serialize(self, file_name):
         data = []
 
         for contact in self.phone_book:
             data.append(contact.to_dict(contact))
 
-        return data
-
-    def __write_to_file(self, file_name):
-        data = self.serialize()
-
         with open(file_name, "w") as f:
             dump(data, f)
+
+    def deserialize(self):
+        with open(self.file_name, "r") as f:
+            phone_book_load = load(f)
+
+        # reset the flag for tracking changes
+        for line in phone_book_load:
+            self.phone_book.append(Contact(line["surname"], line["name"],
+                                           line["age"], line["phone_number"],
+                                           line["email"]))
+
+    def _write_to_file(self, file_name):
+        self.serialize(file_name)
 
         print(f"\nPhone book saved to file "
               f"'{file_name}' successfully.")
@@ -209,7 +210,7 @@ class Phonebook:
             options=["yes", "no"]).lower()
 
         if response_from_user == "yes":
-            self.__write_to_file(new_file_name)
+            self._write_to_file(new_file_name)
 
     def save_phonebook_to_actual_file(self):
         response_from_user = get_input_str(
@@ -218,7 +219,7 @@ class Phonebook:
             options=["yes", "no"]).lower()
 
         if response_from_user == "yes":
-            self.__write_to_file(self.file_name)
+            self._write_to_file(self.file_name)
 
     def save_changes(self):
         response_from_user = get_input_str(
@@ -254,17 +255,11 @@ class Phonebook:
         # reset the flag for tracking changes
         self.changes_made = False
 
-        self.__open_file()
+        self._open_file()
 
-    def __open_file(self):
+    def _open_file(self):
         try:
-            with open(self.file_name, "r") as f:
-                phone_book_load = load(f)
-
-            # reset the flag for tracking changes
-            self.changes_made = False
-            for line in phone_book_load:
-                self.phone_book.append(Contact.to_object(line))
+            self.deserialize()
 
         except FileNotFoundError:
             print_error("File not found")

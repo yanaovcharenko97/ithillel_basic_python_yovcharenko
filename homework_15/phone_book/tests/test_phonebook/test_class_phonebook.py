@@ -28,7 +28,7 @@ class TestPhonebook(unittest.TestCase):
             expected_output += "2: Jane Smith, 25 years old\n"
             self.assertEqual(fake_out.getvalue(), expected_output)
 
-    def test_calculate_average_age_of_all_persons_in_phonebook(self):
+    def test_average_age(self):
         expected_output = "Average age of all persons:\n~ 27.50 years ~\n"
         with patch('sys.stdout', new=StringIO()) as fake_out:
             self.phonebook.average_age()
@@ -41,7 +41,7 @@ class TestPhonebook(unittest.TestCase):
             self.phonebook.average_age()
             self.assertEqual(fake_out.getvalue(), expected_output)
 
-    def test_count_all_entries_in_phonebook(self):
+    def test_count_all_entries(self):
         expected_output = "Total number of entries:  2\n"
         with patch('sys.stdout', new=StringIO()) as fake_out:
             self.phonebook.count_all_entries()
